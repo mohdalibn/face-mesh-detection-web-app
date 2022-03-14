@@ -266,6 +266,10 @@ if SelectAppMode == 'Video Mode':
     # If the Video Recording Option is selected by the User
     RecordingCodec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
 
+    # Outputing the Recorded Video into a file
+    OutputVideo = cv2.Video('recording1.mp4',
+                            RecordingCodec, VideoFPS, (VideoWidth, VideoHeight))
+
     st.sidebar.markdown('---')
 
     st.markdown(
