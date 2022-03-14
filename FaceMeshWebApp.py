@@ -234,7 +234,7 @@ if SelectAppMode == 'Video Mode':
     if RecordOption:
         st.checkbox("Recording Video....", value=True)
 
-    stFrame = st.empty
+    stFrame = st.empty()
 
     # This allows Users to import an Image file from their local Machine
     UploadVideoFile = st.sidebar.file_uploader(
@@ -247,28 +247,21 @@ if SelectAppMode == 'Video Mode':
 
         # Executes if the User Clicks on the Webcam button
         if UseWebcam:
-            CamVideo = cv2.VideoCapture(0)
+            CapVideo = cv2.VideoCapture(0)
 
         # If the User does use the webcam, then we use a stock video
         else:
-            CamVideo = cv2.VideoCapture("videos/DemoVideo1.mp4")
-            # Displaying the video on the Sidebar
-            st.sidebar.text("Demo Video")
-            st.sidebar.video("videos/DemoVideo1.mp4")
+            CapVideo = cv2.VideoCapture("videos/DemoVideo1.mp4")
 
     #
     else:
         TmpFile.write(UploadVideoFile.read())
-        CamVideo = cv2.VideoCapture(TmpFile.name)
-
-        # Displaying the video on the Sidebar
-        st.sidebar.text("Original Video Imported")
-        st.sidebar.video(TmpFile.name)
+        CapVideo = cv2.VideoCapture(TmpFile.name)
 
     # Getting the Video Width, Height, and FPS
-    VideoWidth = int(CamVideo.get(cv2.CAP_PROP_FRAME_WIDTH))
-    VideoHeight = int(CamVideo.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    VideoFPS = int(CamVideo.get(cv2.CAP_PROP_FPS))
+    VideoWidth = int(CapVideo.get(cv2.CAP_PROP_FRAME_WIDTH))
+    VideoHeight = int(CapVideo.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    VideoFPS = int(CapVideo.get(cv2.CAP_PROP_FPS))
 
     # If the Video Recording Option is selected by the User
     RecordingCodec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
@@ -276,6 +269,10 @@ if SelectAppMode == 'Video Mode':
     # Outputing the Recorded Video into a file
     OutputVideo = cv2.VideoWriter('recording1.mp4',
                                   RecordingCodec, VideoFPS, (VideoWidth, VideoHeight))
+
+    # Displaying the video on the Sidebar
+    st.sidebar.text("Demo Video")
+    st.sidebar.video("videos/DemoVideo1.mp4")
 
     st.sidebar.markdown('---')
 
@@ -312,9 +309,6 @@ if SelectAppMode == 'Video Mode':
 
     # st.sidebar.markdown('---')
 
-    FaceCount = 0
-    Failed = False
-
     DrawingSpec = MPDrawing.DrawingSpec(thickness=2, circle_radius=1)
 
     FaceCountText, FPSText, WidthText, HeightText = st.columns(4)
@@ -341,47 +335,75 @@ if SelectAppMode == 'Video Mode':
 
     st.markdown('<hr/>', unsafe_allow_html=True)
 
-    # # The Code below is for the Statistics Dashboard
-    # with MPFaceMesh.FaceMesh(
-    #         static_image_mode=True,
-    #         max_num_faces=NumFaces,
-    #         min_detection_confidence=DetectionConfidence) as FaceMesh:
+    FaceCount = 0
+    Failed = False
+    FPS = 0
+    FpsFrame = 0
 
-    #     MeshProcessResults = FaceMesh.process(ImageFile)
-    #     OutputImage = ImageFile.copy()
+    # The Code below is for the Statistics Dashboard
+    with MPFaceMesh.FaceMesh(
+            max_num_faces=NumFaces,
+            min_detection_confidence=DetectionConfidence,
+            min_tracking_confidence=TrackingConfidence) as FaceMesh:
 
-    #     # This if statement is a fail check when the model isn't able to detect faces
-    #     if MeshProcessResults.multi_face_landmarks is not None:
+        # Setting the PrevTime to calculate the FPS of the video
+        PrevTime = 0
 
-    #         Failed = False
+        while CapVideo.isOpened():
+            FpsFrame += 1
 
-    #         # Here is the code for drawing the Face Mesh Landmarks
-    #         for FaceLandMarks in MeshProcessResults.multi_face_landmarks:
+            success, frame = CapVideo.read()
 
-    #             # We increment our FaceCount Variable
-    #             FaceCount += 1
+            if not success:
+                continue
 
-    #             MPDrawing.draw_landmarks(
-    #                 image=OutputImage,
-    #                 landmark_list=FaceLandMarks,
-    #                 connections=MPFaceMesh.FACE_CONNECTIONS,
-    #                 landmark_drawing_spec=DrawingSpec
-    #             )
+            MeshProcessResults = FaceMesh.process(frame)
+            frame.flags.writeable = True
 
-    #     else:
-    #         Failed = True
+            FaceCount = 0
 
-    #     # Displaying the Resulting Output Image on the Main Page
-    #     st.subheader("Resulting Output Video")
-    #     st.image(OutputImage, use_column_width=True)
+            # This if statement is a fail check when the model isn't able to detect faces
+            if MeshProcessResults.multi_face_landmarks is not None:
 
-    #     st.subheader("**Detected Faces**")
-    #     DetectedText = st.markdown("0")
+                Failed = False
 
-    #     # These if else statements display the right text accordingly
-    #     if Failed:
-    #         DetectedText.write(
-    #             f"<h2 style='text-align: center; color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
-    #     else:
-    #         DetectedText.write(
-    #             f"<h1 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
+                # Here is the code for drawing the Face Mesh Landmarks
+                for FaceLandMarks in MeshProcessResults.multi_face_landmarks:
+
+                    # We increment our FaceCount Variable
+                    FaceCount += 1
+
+                    MPDrawing.draw_landmarks(
+                        image=frame,
+                        landmark_list=FaceLandMarks,
+                        connections=MPFaceMesh.FACE_CONNECTIONS,
+                        landmark_drawing_spec=DrawingSpec,
+                        connection_drawing_spec=DrawingSpec
+                    )
+
+            else:
+                Failed = True
+
+            # Calculating the FPS and Updating the PrevTime
+            CurrTime = time.time()
+            FPS = 1 // (CurrTime - PrevTime)
+            PrevTime = CurrTime
+
+            if RecordOption:
+                OutputVideo.write(frame)
+
+            FCText.write(
+                f"<h2 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h2>", unsafe_allow_html=True)
+
+            FPSText2.write(
+                f"<h2 style='text-align: center; color: #8B3DFF;'>{FPS}</h2>", unsafe_allow_html=True)
+
+            WthText.write(
+                f"<h2 style='text-align: center; color: #8B3DFF;'>{VideoWidth}</h2>", unsafe_allow_html=True)
+
+            HhtText.write(
+                f"<h2 style='text-align: center; color: #8B3DFF;'>{VideoHeight}</h2>", unsafe_allow_html=True)
+
+            frame = cv2.resize(frame, (0, 0), fx=0.8, fy=0.8)
+            frame = FrameResize(Frame=frame, FrameWidth=640)
+            stFrame.image(frame, channels="BGR", use_column_width=True)
