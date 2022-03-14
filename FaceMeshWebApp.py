@@ -40,8 +40,8 @@ st.markdown(
 
 )
 
-st.sidebar.title('Face Mesh Controls')  # Sidebar Title
-st.sidebar.subheader('parameters')  # Sidebar subheading
+st.sidebar.title('Face Mesh App Controls')  # Sidebar Title
+# st.sidebar.subheader('parameters')  # Sidebar subheading
 
 
 # This function is going to resize the User selected Image or Video File so that it fits within the assigned space in the Web App
@@ -69,3 +69,11 @@ def FrameResize(Frame, FrameWidth=None, FrameHeight=None, InterpolationMtd=cv2.I
 
     # Return the new Resized Frame
     return ResizedFrame
+
+
+# Creating a Streamlit Selectbox to give the user options to select a mode
+
+SelectAppMode = st.sidebar.selectbox('Select an App Mode',
+                                     ['Face Mesh App Details',
+                                         'Image Mode', 'Video Mode']
+                                     )
