@@ -252,11 +252,18 @@ if SelectAppMode == 'Video Mode':
         # If the User does use the webcam, then we use a stock video
         else:
             CamVideo = cv2.VideoCapture("videos/DemoVideo1.mp4")
+            # Displaying the video on the Sidebar
+            st.sidebar.text("Demo Video")
+            st.sidebar.video("videos/DemoVideo1.mp4")
 
     #
     else:
-        TmpFile.write(UploadImageFile.read())
+        TmpFile.write(UploadVideoFile.read())
         CamVideo = cv2.VideoCapture(TmpFile.name)
+
+        # Displaying the video on the Sidebar
+        st.sidebar.text("Original Video Imported")
+        st.sidebar.video(TmpFile.name)
 
     # Getting the Video Width, Height, and FPS
     VideoWidth = int(CamVideo.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -267,8 +274,8 @@ if SelectAppMode == 'Video Mode':
     RecordingCodec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
 
     # Outputing the Recorded Video into a file
-    OutputVideo = cv2.Video('recording1.mp4',
-                            RecordingCodec, VideoFPS, (VideoWidth, VideoHeight))
+    OutputVideo = cv2.VideoWriter('recording1.mp4',
+                                  RecordingCodec, VideoFPS, (VideoWidth, VideoHeight))
 
     st.sidebar.markdown('---')
 
@@ -308,47 +315,73 @@ if SelectAppMode == 'Video Mode':
     FaceCount = 0
     Failed = False
 
-    # The Code below is for the Statistics Dashboard
-    with MPFaceMesh.FaceMesh(
-            static_image_mode=True,
-            max_num_faces=NumFaces,
-            min_detection_confidence=DetectionConfidence) as FaceMesh:
+    DrawingSpec = MPDrawing.DrawingSpec(thickness=2, circle_radius=1)
 
-        MeshProcessResults = FaceMesh.process(ImageFile)
-        OutputImage = ImageFile.copy()
+    FaceCountText, FPSText, WidthText, HeightText = st.columns(4)
 
-        # This if statement is a fail check when the model isn't able to detect faces
-        if MeshProcessResults.multi_face_landmarks is not None:
+    # This is for the FaceCount Value
+    with FaceCountText:
+        st.markdown("**Face Count**")
+        FCText = st.markdown("0")
 
-            Failed = False
+    # This is for the FPS Value
+    with FPSText:
+        st.markdown("**Frame Rate**")
+        FPSText2 = st.markdown("0")
 
-            # Here is the code for drawing the Face Mesh Landmarks
-            for FaceLandMarks in MeshProcessResults.multi_face_landmarks:
+    # This is for the Video Width Value
+    with WidthText:
+        st.markdown("**Video Width**")
+        WthText = st.markdown("0")
 
-                # We increment our FaceCount Variable
-                FaceCount += 1
+    # This is for the Video Height Value
+    with HeightText:
+        st.markdown("**Video Height**")
+        HhtText = st.markdown("0")
 
-                MPDrawing.draw_landmarks(
-                    image=OutputImage,
-                    landmark_list=FaceLandMarks,
-                    connections=MPFaceMesh.FACE_CONNECTIONS,
-                    landmark_drawing_spec=DrawingSpec
-                )
+    st.markdown('<hr/>', unsafe_allow_html=True)
 
-        else:
-            Failed = True
+    # # The Code below is for the Statistics Dashboard
+    # with MPFaceMesh.FaceMesh(
+    #         static_image_mode=True,
+    #         max_num_faces=NumFaces,
+    #         min_detection_confidence=DetectionConfidence) as FaceMesh:
 
-        # Displaying the Resulting Output Image on the Main Page
-        st.subheader("Resulting Output Video")
-        st.image(OutputImage, use_column_width=True)
+    #     MeshProcessResults = FaceMesh.process(ImageFile)
+    #     OutputImage = ImageFile.copy()
 
-        st.subheader("**Detected Faces**")
-        DetectedText = st.markdown("0")
+    #     # This if statement is a fail check when the model isn't able to detect faces
+    #     if MeshProcessResults.multi_face_landmarks is not None:
 
-        # These if else statements display the right text accordingly
-        if Failed:
-            DetectedText.write(
-                f"<h2 style='text-align: center; color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
-        else:
-            DetectedText.write(
-                f"<h1 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
+    #         Failed = False
+
+    #         # Here is the code for drawing the Face Mesh Landmarks
+    #         for FaceLandMarks in MeshProcessResults.multi_face_landmarks:
+
+    #             # We increment our FaceCount Variable
+    #             FaceCount += 1
+
+    #             MPDrawing.draw_landmarks(
+    #                 image=OutputImage,
+    #                 landmark_list=FaceLandMarks,
+    #                 connections=MPFaceMesh.FACE_CONNECTIONS,
+    #                 landmark_drawing_spec=DrawingSpec
+    #             )
+
+    #     else:
+    #         Failed = True
+
+    #     # Displaying the Resulting Output Image on the Main Page
+    #     st.subheader("Resulting Output Video")
+    #     st.image(OutputImage, use_column_width=True)
+
+    #     st.subheader("**Detected Faces**")
+    #     DetectedText = st.markdown("0")
+
+    #     # These if else statements display the right text accordingly
+    #     if Failed:
+    #         DetectedText.write(
+    #             f"<h2 style='text-align: center; color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
+    #     else:
+    #         DetectedText.write(
+    #             f"<h1 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
