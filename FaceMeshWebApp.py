@@ -153,7 +153,7 @@ if SelectAppMode == 'Image Mode':
 
     # If the User Upload file is empty, then we use a stock image
     else:
-        StockDemoImg = "images/DemoImage2.jpg"
+        StockDemoImg = "images/DemoImage1.jpg"
         ImageFile = np.array(Image.open(StockDemoImg))
 
         st.sidebar.text('Demo Image Provided')
