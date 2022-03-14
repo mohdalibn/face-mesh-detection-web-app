@@ -8,6 +8,7 @@
 """
 
 # Importing the required libraries for the project
+from cv2 import circle
 import streamlit as st
 import mediapipe as mp
 from PIL import Image
@@ -80,29 +81,65 @@ SelectAppMode = st.sidebar.selectbox('Select an App Mode',
 
 # Executing statements according to the User's choice
 if SelectAppMode == 'Face Mesh App Details':
+
+    st.sidebar.markdown('---')
+
     st.markdown(
 
         "This is a **Face Mesh Detection Web Application** made using a Python library called **Streamlit**. The Face Mesh is detected using a pretrained model provided by Google's **MediaPipe Python library**. The Image or Video frames are processed using **OpenCV** and **Pillow**."
 
     )
 
-st.markdown(
-    """
+    st.markdown(
+        """
 
-    <style>
-    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
+        <style>
+        [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
 
-    [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
-        width:350px
-        margin-left: -350px
-        }
-    </style>
+        [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
+            width:350px
+            margin-left: -350px
+            }
+        </style>
 
-    """,
+        """,
 
-    unsafe_allow_html=True,
+        unsafe_allow_html=True,
 
-)
+    )
 
-# Loading a video from the videos folder
-st.video('videos/DemoVideo2.mp4')
+    # Loading a video from the videos folder
+    st.video('videos/DemoVideo2.mp4')
+
+
+# Variables created for ease of typing
+MPDrawing = mp.solutions.drawing_utils
+MPFaceMesh = mp.solutions.face_mesh
+
+if SelectAppMode == 'Image Mode':
+    DrawingSpec = MPDrawing.DrawingSpec(thickness=2, circle_radius=1)
+
+    st.sidebar.markdown('---')
+
+    st.markdown(
+        """
+
+        <style>
+        [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
+
+        [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
+            width:350px
+            margin-left: -350px
+            }
+        </style>
+
+        """,
+
+        unsafe_allow_html=True,
+
+    )
+
+
+if SelectAppMode == 'Video Mode':
+
+    st.sidebar.markdown('---')
