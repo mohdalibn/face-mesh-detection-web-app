@@ -258,6 +258,14 @@ if SelectAppMode == 'Video Mode':
         TmpFile.write(UploadImageFile.read())
         CamVideo = cv2.VideoCapture(TmpFile.name)
 
+    # Getting the Video Width, Height, and FPS
+    VideoWidth = int(CamVideo.get(cv2.CAP_PROP_FRAME_WIDTH))
+    VideoHeight = int(CamVideo.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    VideoFPS = int(CamVideo.get(cv2.CAP_PROP_FPS))
+
+    # If the Video Recording Option is selected by the User
+    RecordingCodec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+
     st.sidebar.markdown('---')
 
     st.markdown(
