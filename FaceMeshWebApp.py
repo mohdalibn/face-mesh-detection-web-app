@@ -224,4 +224,119 @@ if SelectAppMode == 'Image Mode':
 
 if SelectAppMode == 'Video Mode':
 
+    # This line suppress any deprecation warning that Streamlit may Output
+    st.set_option('deprecation.showfileUploaderEncoding', False)
+
+    # This lets the User Use their Webcam as direct input into the App
+    UseWebcam = st.sidebar.button('Use Webcam')
+    RecordOption = st.sidebar.checkbox('Record Video')
+
+    if RecordOption:
+        st.checkbox("Recording Video....", value=True)
+
+    stFrame = st.empty
+
+    # This allows Users to import an Image file from their local Machine
+    UploadVideoFile = st.sidebar.file_uploader(
+        'Upload a Video', type=["mp4", "avi", "mov", "asf", "m4v"])
+
+    TmpFile = tempfile.NamedTemporaryFile(delete=False)
+
+    # This statement executes when the file upload buffer is not empty
+    if not UploadVideoFile:
+
+        # Executes if the User Clicks on the Webcam button
+        if UseWebcam:
+            CamVideo = cv2.VideoCapture(0)
+
+        # If the User does use the webcam, then we use a stock video
+        else:
+            CamVideo = cv2.VideoCapture("videos/DemoVideo1.mp4")
+
+    #
+    else:
+        TmpFile.write(UploadImageFile.read())
+        CamVideo = cv2.VideoCapture(TmpFile.name)
+
     st.sidebar.markdown('---')
+
+    st.markdown(
+        """
+
+        <style>
+        [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
+
+        [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
+            width:350px
+            margin-left: -350px
+            }
+        </style>
+
+        """,
+
+        unsafe_allow_html=True,
+
+    )
+
+    # This parameter is going to allow the User to input the number of faces that they want the model to detect on an Image or Video. We are setting the default number of faces to 2(value=2) and minimum to 1 (min_value=1)
+    NumFaces = st.sidebar.number_input(
+        'Select the number of faces you want to detect', value=2, min_value=1)
+
+    st.sidebar.markdown('---')
+
+    # Creates a Slider on the Sidebar for the User to set the Detection Confidence of the Model
+    DetectionConfidence = st.sidebar.slider(
+        'Minimum Detection Confidence', min_value=0.0, max_value=1.0, value=0.5)
+
+    TrackingConfidence = st.sidebar.slider(
+        'Minimum Tracking Confidence', min_value=0.0, max_value=1.0, value=0.5)
+
+    # st.sidebar.markdown('---')
+
+    FaceCount = 0
+    Failed = False
+
+    # The Code below is for the Statistics Dashboard
+    with MPFaceMesh.FaceMesh(
+            static_image_mode=True,
+            max_num_faces=NumFaces,
+            min_detection_confidence=DetectionConfidence) as FaceMesh:
+
+        MeshProcessResults = FaceMesh.process(ImageFile)
+        OutputImage = ImageFile.copy()
+
+        # This if statement is a fail check when the model isn't able to detect faces
+        if MeshProcessResults.multi_face_landmarks is not None:
+
+            Failed = False
+
+            # Here is the code for drawing the Face Mesh Landmarks
+            for FaceLandMarks in MeshProcessResults.multi_face_landmarks:
+
+                # We increment our FaceCount Variable
+                FaceCount += 1
+
+                MPDrawing.draw_landmarks(
+                    image=OutputImage,
+                    landmark_list=FaceLandMarks,
+                    connections=MPFaceMesh.FACE_CONNECTIONS,
+                    landmark_drawing_spec=DrawingSpec
+                )
+
+        else:
+            Failed = True
+
+        # Displaying the Resulting Output Image on the Main Page
+        st.subheader("Resulting Output Video")
+        st.image(OutputImage, use_column_width=True)
+
+        st.subheader("**Detected Faces**")
+        DetectedText = st.markdown("0")
+
+        # These if else statements display the right text accordingly
+        if Failed:
+            DetectedText.write(
+                f"<h2 style='text-align: center; color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
+        else:
+            DetectedText.write(
+                f"<h1 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
