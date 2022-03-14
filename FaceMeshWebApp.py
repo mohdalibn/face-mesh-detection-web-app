@@ -40,5 +40,32 @@ st.markdown(
 
 )
 
-st.sidebar.title('FaceMesh Sidebar')
-st.sidebar.subheader('parameters')
+st.sidebar.title('Face Mesh Controls')  # Sidebar Title
+st.sidebar.subheader('parameters')  # Sidebar subheading
+
+
+# This function is going to resize the User selected Image or Video File so that it fits within the assigned space in the Web App
+@st.cache()
+def FrameResize(Frame, FrameWidth=None, FrameHeight=None, InterpolationMtd=cv2.INTER_AREA):
+    FrameDimensions = None
+    height, width, _ = Frame.shape
+
+    # We simply return the Image or Video Frame if both the Width and Height are None
+    if FrameWidth is None and FrameHeight is None:
+        return Frame
+
+    # This statement executes if only the FrameWidth is None
+    if FrameWidth is None:
+        result = FrameWidth / float(width)
+        FrameDimensions = (int(width * result), FrameHeight)
+
+    else:
+        result = FrameWidth / float(width)
+        FrameDimensions = (FrameWidth, int(height * result))
+
+    # Here, we resize the frame using the calculated values above using opencv
+    ResizedFrame = cv2.resize(Frame, FrameDimensions,
+                              interpolation=InterpolationMtd)
+
+    # Return the new Resized Frame
+    return ResizedFrame
