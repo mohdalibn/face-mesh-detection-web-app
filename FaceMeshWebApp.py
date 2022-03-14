@@ -139,6 +139,17 @@ if SelectAppMode == 'Image Mode':
 
     )
 
+    # This parameter is going to allow the User to input the number of faces that they want the model to detect on an Image or Video. We are setting the default number of faces to 2(value=2) and minimum to 1 (min_value=1)
+    NumFaces = st.sidebar.number_input(
+        'Select the number of faces you want to detect', value=2, min_value=1)
+
+    st.sidebar.markdown('---')
+
+    DetectionConfidence = st.sidebar.slider(
+        'Minimum Detection Confidence', min_value=0.0, max_value=1.0, value=0.5)
+
+    st.sidebar.markdown('---')
+
 
 if SelectAppMode == 'Video Mode':
 
