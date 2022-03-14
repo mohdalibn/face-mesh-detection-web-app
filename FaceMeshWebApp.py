@@ -139,16 +139,87 @@ if SelectAppMode == 'Image Mode':
 
     )
 
+    # This allows Users to import an Image file from their local Machine
+    UploadImageFile = st.sidebar.file_uploader(
+        'Upload an Image', type=["png", "jpg", "jpeg"])
+
+    # This statement executes when the file upload buffer is not empty
+    if UploadImageFile is not None:
+        ImageFile = np.array(Image.open(UploadImageFile))
+
+        # These next 2 lines display the original image imported by the User on the Sidebar
+        st.sidebar.text('Original Image Uploaded')
+        st.sidebar.image(ImageFile)
+
+    # If the User Upload file is empty, then we use a stock image
+    else:
+        StockDemoImg = "images/DemoImage2.jpg"
+        ImageFile = np.array(Image.open(StockDemoImg))
+
+        st.sidebar.text('Demo Image Provided')
+        st.sidebar.image(ImageFile)
+
+    st.sidebar.markdown('---')
+
     # This parameter is going to allow the User to input the number of faces that they want the model to detect on an Image or Video. We are setting the default number of faces to 2(value=2) and minimum to 1 (min_value=1)
     NumFaces = st.sidebar.number_input(
         'Select the number of faces you want to detect', value=2, min_value=1)
 
     st.sidebar.markdown('---')
 
+    # Creates a Slider on the Sidebar for the User to set the Detection Confidence of the Model
     DetectionConfidence = st.sidebar.slider(
         'Minimum Detection Confidence', min_value=0.0, max_value=1.0, value=0.5)
 
-    st.sidebar.markdown('---')
+    # st.sidebar.markdown('---')
+
+    FaceCount = 0
+    Failed = False
+
+    # The Code below is for the Statistics Dashboard
+    with MPFaceMesh.FaceMesh(
+            static_image_mode=True,
+            max_num_faces=NumFaces,
+            min_detection_confidence=DetectionConfidence) as FaceMesh:
+
+        MeshProcessResults = FaceMesh.process(ImageFile)
+        OutputImage = ImageFile.copy()
+
+        # This if statement is a fail check when the model isn't able to detect faces
+        if MeshProcessResults.multi_face_landmarks is not None:
+
+            Failed = False
+
+            # Here is the code for drawing the Face Mesh Landmarks
+            for FaceLandMarks in MeshProcessResults.multi_face_landmarks:
+
+                # We increment our FaceCount Variable
+                FaceCount += 1
+
+                MPDrawing.draw_landmarks(
+                    image=OutputImage,
+                    landmark_list=FaceLandMarks,
+                    connections=MPFaceMesh.FACE_CONNECTIONS,
+                    landmark_drawing_spec=DrawingSpec
+                )
+
+        else:
+            Failed = True
+
+        # Displaying the Resulting Output Image on the Main Page
+        st.subheader("Resulting Output Image")
+        st.image(OutputImage, use_column_width=True)
+
+        st.subheader("**Detected Faces**")
+        DetectedText = st.markdown("0")
+
+        # These if else statements display the right text accordingly
+        if Failed:
+            DetectedText.write(
+                f"<h2 style='text-align: center; color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
+        else:
+            DetectedText.write(
+                f"<h1 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
 
 
 if SelectAppMode == 'Video Mode':
