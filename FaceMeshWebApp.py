@@ -77,3 +77,32 @@ SelectAppMode = st.sidebar.selectbox('Select an App Mode',
                                      ['Face Mesh App Details',
                                          'Image Mode', 'Video Mode']
                                      )
+
+# Executing statements according to the User's choice
+if SelectAppMode == 'Face Mesh App Details':
+    st.markdown(
+
+        "This is a **Face Mesh Detection Web Application** made using a Python library called **Streamlit**. The Face Mesh is detected using a pretrained model provided by Google's **MediaPipe Python library**. The Image or Video frames are processed using **OpenCV** and **Pillow**."
+
+    )
+
+st.markdown(
+    """
+
+    <style>
+    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
+
+    [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
+        width:350px
+        margin-left: -350px
+        }
+    </style>
+
+    """,
+
+    unsafe_allow_html=True,
+
+)
+
+# Loading a video from the videos folder
+st.video('videos/DemoVideo2.mp4')
