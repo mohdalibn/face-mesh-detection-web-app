@@ -72,7 +72,7 @@ st.markdown(
 
 # Setting the Title of the Streamlit App
 # st.title("""Face Mesh Detection Web App""")
-st.markdown("""<h1 style="font-size:50px;">Face Mesh Detection Web App</h1>""",
+st.markdown("""<p style="font-size:50px;font-weight:500;">Face Mesh Detection Web App</p>""",
             unsafe_allow_html=True)
 
 st.markdown('---')
@@ -120,7 +120,9 @@ if SelectAppMode == 'Face Mesh App Details':
 
     st.sidebar.markdown('---')
 
-    st.subheader('About This Project')
+    # st.subheader('About This Project')
+    st.markdown("""<p style="font-size: 32px; font-weight:500;color: #8B3DFF;">About This Project</p>""",
+                unsafe_allow_html=True)
 
     st.markdown(
 
@@ -141,14 +143,60 @@ if SelectAppMode == 'Face Mesh App Details':
 
     st.markdown('---')
 
-    st.subheader('How To Use This App')
+    # st.subheader('How To Use This App')
+    st.markdown("""<p style="font-size: 32px; font-weight:500;color: #8B3DFF;">How to Use This App</p>""",
+                unsafe_allow_html=True)
 
     st.markdown(
 
         """
         <p style="font-size: 20px;">
-        
+            To get started, first choose an App Mode from the Sidebar on the left side of the page. 
         </p>
+        <p style="font-size: 20px;margin-bottom:2.5rem;">
+            There are two Modes Available: <b>Image Mode</b> & <b>Video Mode</b>. 
+        </p>
+        <p style="font-size: 22px;color: #8B3DFF;">
+            <b>Image Mode</b>.      
+        </p>
+
+        <p style="font-size: 20px;">
+            Under the Image Mode, the User has the option to  <b>Upload an Image</b>. By default, the App already loads a <b>Demo Image</b>.
+        </p>
+
+        <p style="font-size: 20px;margin-bottom:2.5rem;">
+            On the Sidebar, the User has the option to control 4 different <b>Parameters</b>. The first one is option to <b>Select the number of faces to detect in the Image</b>. That is followed by three sliders which gives the User the ability to adjust the <b>Detection Confidence</b>, <b>Mesh Thickness</b>, and <b>Mesh Circle Radius</b> respectively.
+        </p>
+
+        <p style="font-size: 22px;color: #8B3DFF;">
+            <b>Video Mode</b>. 
+        </p>
+
+        <p style="font-size: 20px;">
+            Under the Video Mode, the User has the option to  <b>Upload a Video</b> from their local machine. By default, the App already loads a <b>Demo Video</b>.
+        </p>
+
+        <p style="font-size: 20px;margin-bottom:2.5rem;">
+            On the Sidebar, the User has the option to control 5 different <b>Parameters</b>. The first one is option to <b>Select the number of faces to detect in the Video</b>. That is followed by 4 sliders which gives the User the ability to adjust the <b>Detection Confidence</b>, <b>Tracking Confidence</b>,<b>Mesh Thickness</b>, and <b>Mesh Circle Radius</b> respectively.
+        </p>
+
+
+        """, unsafe_allow_html=True
+    )
+
+    st.markdown('---')
+
+    # st.subheader('How To Use This App')
+    st.markdown("""<p style="font-size: 32px; font-weight:500;color: #8B3DFF;">Important Note</p>""",
+                unsafe_allow_html=True)
+
+    st.markdown(
+
+        """
+        <p style="font-size: 20px;">
+            The <b>processing of an Image or Video Frame using the Mediapipe library and OpenCV are entirely done on the computer's CPU</b>, and due this reason, the <b>Frame Rate (FPS) of the output vidoes are generally below 30 FPS</b>. 
+        </p>
+
         """, unsafe_allow_html=True
     )
 
