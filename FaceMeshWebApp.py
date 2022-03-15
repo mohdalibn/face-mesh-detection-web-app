@@ -117,7 +117,6 @@ MPDrawing = mp.solutions.drawing_utils
 MPFaceMesh = mp.solutions.face_mesh
 
 if SelectAppMode == 'Image Mode':
-    DrawingSpec = MPDrawing.DrawingSpec(thickness=2, circle_radius=1)
 
     st.sidebar.markdown('---')
 
@@ -171,7 +170,14 @@ if SelectAppMode == 'Image Mode':
     DetectionConfidence = st.sidebar.slider(
         'Minimum Detection Confidence', min_value=0.0, max_value=1.0, value=0.5)
 
-    # st.sidebar.markdown('---')
+    MeshThickness = st.sidebar.slider(
+        'Mesh Drawing Thickness', min_value=1, max_value=10, value=2)
+
+    MeshCircleRadius = st.sidebar.slider(
+        'Mesh Draawing Circle Radius', min_value=1, max_value=10, value=1)
+
+    DrawingSpec = MPDrawing.DrawingSpec(
+        thickness=MeshThickness, circle_radius=MeshCircleRadius)
 
     FaceCount = 0
     Failed = False
@@ -199,7 +205,7 @@ if SelectAppMode == 'Image Mode':
                 MPDrawing.draw_landmarks(
                     image=OutputImage,
                     landmark_list=FaceLandMarks,
-                    connections=MPFaceMesh.FACE_CONNECTIONS,
+                    connections=MPFaceMesh.FACEMESH_CONTOURS,
                     landmark_drawing_spec=DrawingSpec
                 )
 
