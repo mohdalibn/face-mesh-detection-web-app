@@ -371,6 +371,9 @@ if SelectAppMode == 'Image Mode':
 
 if SelectAppMode == 'Video Mode':
 
+    st.markdown(
+        """<p style="font-size: 32px; font-weight:500;color: #8B3DFF;">Resulting Output Video</p>""", unsafe_allow_html=True)
+
     # This line suppress any deprecation warning that Streamlit may Output
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
@@ -469,22 +472,26 @@ if SelectAppMode == 'Video Mode':
 
     # This is for the FaceCount Value
     with FaceCountText:
-        st.markdown("**Face Count**")
+        st.write(f"<h1 style='text-align:center;font-size:20px;'>Face Count</h1>",
+                 unsafe_allow_html=True)
         FCText = st.markdown("0")
 
     # This is for the FPS Value
     with FPSText:
-        st.markdown("**Frame Rate**")
+        st.write(f"<h1 style='text-align:center;font-size:20px;'>Frame Rate</h1>",
+                 unsafe_allow_html=True)
         FPSText2 = st.markdown("0")
 
     # This is for the Video Width Value
     with WidthText:
-        st.markdown("**Video Width**")
+        st.write(f"<h1 style='text-align:center;font-size:20px;'>Video Width</h1>",
+                 unsafe_allow_html=True)
         WthText = st.markdown("0")
 
     # This is for the Video Height Value
     with HeightText:
-        st.markdown("**Video Height**")
+        st.write(f"<h1 style='text-align:center;font-size:20px;'>Video Height</h1>",
+                 unsafe_allow_html=True)
         HhtText = st.markdown("0")
 
     st.markdown('<hr/>', unsafe_allow_html=True)
@@ -547,16 +554,16 @@ if SelectAppMode == 'Video Mode':
                 OutputVideo.write(frame)
 
             FCText.write(
-                f"<h2 style='color: #8B3DFF;'>{FaceCount}</h2>", unsafe_allow_html=True)
+                f"<h2 style='text-align:center;color: #8B3DFF;'>{FaceCount}</h2>", unsafe_allow_html=True)
 
             FPSText2.write(
-                f"<h2 style='color: #8B3DFF;'>{FPS}</h2>", unsafe_allow_html=True)
+                f"<h2 style='text-align:center;color: #8B3DFF;'>{FPS}</h2>", unsafe_allow_html=True)
 
             WthText.write(
-                f"<h2 style='color: #8B3DFF;'>{VideoWidth}</h2>", unsafe_allow_html=True)
+                f"<h2 style='text-align:center;color: #8B3DFF;'>{VideoWidth}</h2>", unsafe_allow_html=True)
 
             HhtText.write(
-                f"<h2 style='color: #8B3DFF;'>{VideoHeight}</h2>", unsafe_allow_html=True)
+                f"<h2 style='text-align:center;color: #8B3DFF;'>{VideoHeight}</h2>", unsafe_allow_html=True)
 
             frame = cv2.resize(frame, (0, 0), fx=0.8, fy=0.8)
             frame = FrameResize(Frame=frame, FrameWidth=640)
