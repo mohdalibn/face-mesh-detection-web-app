@@ -108,9 +108,6 @@ if SelectAppMode == 'Face Mesh App Details':
 
     )
 
-    # Loading a video from the videos folder
-    st.video('videos/DemoVideo2.mp4')
-
 
 # Variables created for ease of typing
 MPDrawing = mp.solutions.drawing_utils
