@@ -309,7 +309,14 @@ if SelectAppMode == 'Video Mode':
 
     # st.sidebar.markdown('---')
 
-    DrawingSpec = MPDrawing.DrawingSpec(thickness=2, circle_radius=1)
+    MeshThickness = st.sidebar.slider(
+        'Mesh Drawing Thickness', min_value=1, max_value=10, value=2)
+
+    MeshCircleRadius = st.sidebar.slider(
+        'Mesh Draawing Circle Radius', min_value=1, max_value=10, value=1)
+
+    DrawingSpec = MPDrawing.DrawingSpec(
+        thickness=MeshThickness, circle_radius=MeshCircleRadius)
 
     FaceCountText, FPSText, WidthText, HeightText = st.columns(4)
 
@@ -376,7 +383,7 @@ if SelectAppMode == 'Video Mode':
                     MPDrawing.draw_landmarks(
                         image=frame,
                         landmark_list=FaceLandMarks,
-                        connections=MPFaceMesh.FACE_CONNECTIONS,
+                        connections=MPFaceMesh.FACEMESH_CONTOURS,
                         landmark_drawing_spec=DrawingSpec,
                         connection_drawing_spec=DrawingSpec
                     )
