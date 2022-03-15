@@ -18,6 +18,9 @@ import time
 import cv2
 
 
+# Sets the Streamlit App to Display in Wide Mode
+st.set_page_config(layout="wide")
+
 st.markdown(
 
     """
@@ -69,9 +72,10 @@ st.markdown(
 
 # Setting the Title of the Streamlit App
 # st.title("""Face Mesh Detection Web App""")
-st.markdown("""<h1 style="font-size:45px;">Face Mesh Detection Web App</h1>""",
+st.markdown("""<h1 style="font-size:50px;">Face Mesh Detection Web App</h1>""",
             unsafe_allow_html=True)
 
+st.markdown('---')
 
 st.sidebar.title('Face Mesh App Controls')  # Sidebar Title
 # st.sidebar.subheader('parameters')  # Sidebar subheading
@@ -121,29 +125,50 @@ if SelectAppMode == 'Face Mesh App Details':
     st.markdown(
 
         """
-        <p style="font-size: 24px;">
-        This is a <b>Face Mesh Detection Web Application</b> made using a Python library called **Streamlit**. The Face Mesh is detected using a pretrained model provided by Google's **MediaPipe Python library**. The Image or Video frames are processed using **OpenCV** and **Pillow**.
-        <p>
+        <p style="font-size: 20px;">
+        This is a <b>Face Mesh Detection Web Application</b> made using a Python library called <b>Streamlit</b>. The Face Mesh is detected using a pretrained model provided by Google's <b>MediaPipe Python library</b>. The Image or Video frames are processed using <b>OpenCV</b> and <b>Pillow</b>.
+
+        <p style="font-size: 20px;">Made By: <b>Mohd Ali Bin Naser</b></p>
+        <p style="font-size: 20px;">Project Date: <b>March 2022</b></p>
+        <p style="font-size: 20px;">Tech Stack: <b>Python , OpenCV , Mediapipe , Streamlit , Numpy , Pillow</b></p>
+        <p style="font-size: 20px;">Github: <b>github.com/mohdalibn</b></p>
+        <p style="font-size: 20px;">Qualification: <b>Pursuing a Bachelor's Degree in Computer Science</b></p>
+
+
+        </p>
         """, unsafe_allow_html=True
     )
 
+    st.markdown('---')
+
+    st.subheader('How To Use This App')
+
     st.markdown(
+
         """
-
-        <style>
-        [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
-
-        [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
-            width:350px
-            margin-left: -350px
-            }
-        </style>
-
-        """,
-
-        unsafe_allow_html=True,
-
+        <p style="font-size: 20px;">
+        
+        </p>
+        """, unsafe_allow_html=True
     )
+
+    # st.markdown(
+    #     """
+
+    #     <style>
+    #     [data-testid="stSidebar"][aria-expanded="true"] > div:first-child{width:350px}
+
+    #     [data-testid="stSidebar"][aria-expanded="false"] > div:first-child{
+    #         width:350px
+    #         margin-left: -350px
+    #         }
+    #     </style>
+
+    #     """,
+
+    #     unsafe_allow_html=True,
+
+    # )
 
 
 # Variables created for ease of typing
