@@ -8,7 +8,6 @@
 """
 
 # Importing the required libraries for the project
-from cv2 import circle
 import streamlit as st
 import mediapipe as mp
 from PIL import Image
