@@ -18,9 +18,33 @@ import time
 import cv2
 
 
-# Setting the Title of the Streamlit App
-st.title('Face Mesh Detection Web App')
+st.markdown(
 
+    """
+    
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        # font-face {
+        # font-family: 'Poppins', san-serif;
+        # font-style: normal;
+        # font-weight: 400;
+        # }
+
+        html, body, [class*="css"]  {
+        font-family: 'Poppins', sans-serif;
+        # font-size: 20px;
+        }
+    
+
+    </style>
+
+    """,
+
+    unsafe_allow_html=True
+
+)
 
 # Adding the SideBar Markdown
 st.markdown(
@@ -33,6 +57,7 @@ st.markdown(
         width:350px
         margin-left: -350px
         }
+
     </style>
 
     """,
@@ -40,6 +65,13 @@ st.markdown(
     unsafe_allow_html=True,
 
 )
+
+
+# Setting the Title of the Streamlit App
+# st.title("""Face Mesh Detection Web App""")
+st.markdown("""<h1 style="font-size:45px;">Face Mesh Detection Web App</h1>""",
+            unsafe_allow_html=True)
+
 
 st.sidebar.title('Face Mesh App Controls')  # Sidebar Title
 # st.sidebar.subheader('parameters')  # Sidebar subheading
@@ -84,10 +116,15 @@ if SelectAppMode == 'Face Mesh App Details':
 
     st.sidebar.markdown('---')
 
+    st.subheader('About This Project')
+
     st.markdown(
 
-        "This is a **Face Mesh Detection Web Application** made using a Python library called **Streamlit**. The Face Mesh is detected using a pretrained model provided by Google's **MediaPipe Python library**. The Image or Video frames are processed using **OpenCV** and **Pillow**."
-
+        """
+        <p style="font-size: 24px;">
+        This is a <b>Face Mesh Detection Web Application</b> made using a Python library called **Streamlit**. The Face Mesh is detected using a pretrained model provided by Google's **MediaPipe Python library**. The Image or Video frames are processed using **OpenCV** and **Pillow**.
+        <p>
+        """, unsafe_allow_html=True
     )
 
     st.markdown(
@@ -403,16 +440,16 @@ if SelectAppMode == 'Video Mode':
                 OutputVideo.write(frame)
 
             FCText.write(
-                f"<h2 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h2>", unsafe_allow_html=True)
+                f"<h2 style='color: #8B3DFF;'>{FaceCount}</h2>", unsafe_allow_html=True)
 
             FPSText2.write(
-                f"<h2 style='text-align: center; color: #8B3DFF;'>{FPS}</h2>", unsafe_allow_html=True)
+                f"<h2 style='color: #8B3DFF;'>{FPS}</h2>", unsafe_allow_html=True)
 
             WthText.write(
-                f"<h2 style='text-align: center; color: #8B3DFF;'>{VideoWidth}</h2>", unsafe_allow_html=True)
+                f"<h2 style='color: #8B3DFF;'>{VideoWidth}</h2>", unsafe_allow_html=True)
 
             HhtText.write(
-                f"<h2 style='text-align: center; color: #8B3DFF;'>{VideoHeight}</h2>", unsafe_allow_html=True)
+                f"<h2 style='color: #8B3DFF;'>{VideoHeight}</h2>", unsafe_allow_html=True)
 
             frame = cv2.resize(frame, (0, 0), fx=0.8, fy=0.8)
             frame = FrameResize(Frame=frame, FrameWidth=640)
