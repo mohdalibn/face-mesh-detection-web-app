@@ -37,9 +37,16 @@ st.markdown(
 
         html, body, [class*="css"]  {
         font-family: 'Poppins', sans-serif;
-        # font-size: 20px;
+        font-size: 20px;
         }
-    
+
+        # .css-16huue1{
+        #     font-size: 24px;
+        # }
+        # .effi0qh0{
+        #     font-size:20px;
+        # }
+
 
     </style>
 
@@ -112,7 +119,7 @@ def FrameResize(Frame, FrameWidth=None, FrameHeight=None, InterpolationMtd=cv2.I
 
 SelectAppMode = st.sidebar.selectbox('Select an App Mode',
                                      ['Face Mesh App Details',
-                                         'Image Mode', 'Video Mode']
+                                         'Image Mode', 'Video Mode'],
                                      )
 
 # Executing statements according to the User's choice
