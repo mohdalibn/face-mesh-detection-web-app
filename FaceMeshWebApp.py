@@ -327,19 +327,46 @@ if SelectAppMode == 'Image Mode':
             Failed = True
 
         # Displaying the Resulting Output Image on the Main Page
-        st.subheader("Resulting Output Image")
+        # st.subheader("Resulting Output Image")
+        st.markdown(
+            """<p style="font-size: 32px; font-weight:500;color: #8B3DFF;">Resulting Output Image</p>""", unsafe_allow_html=True)
         st.image(OutputImage, use_column_width=True)
 
-        st.subheader("**Detected Faces**")
-        DetectedText = st.markdown("0")
+        # st.subheader("**Detected Faces**")
+        # st.markdown(
+        #     """<p style="font-size: 32px; font-weight:500;">Detected Faces</p>""", unsafe_allow_html=True)
+
+        FaceCountText, WidthText, HeightText = st.columns(3)
+
+        ImageHeight, ImageWidth, _ = OutputImage.shape
+
+        # This is for the FaceCount Value
+        with FaceCountText:
+            st.write(
+                f"<h1 style='text-align:center;font-size:20px;'>Face Count</h1>", unsafe_allow_html=True)
+            FCText = st.markdown("0")
+
+        # This is for the Video Width Value
+        with WidthText:
+            st.write(
+                f"<h1 style='text-align:center;font-size:20px;'>Image Width</h1>", unsafe_allow_html=True)
+            WthText = st.write(
+                f"<h1 style='text-align:center;color: #8B3DFF;'>{ImageWidth}</h1>", unsafe_allow_html=True)
+
+        # This is for the Video Height Value
+        with HeightText:
+            st.write(
+                f"<h1 style='text-align:center;font-size:20px;'>Image Height</h1>", unsafe_allow_html=True)
+            HhtText = st.write(
+                f"<h1 style='text-align:center;color: #8B3DFF;'>{ImageHeight}</h1>", unsafe_allow_html=True)
 
         # These if else statements display the right text accordingly
         if Failed:
-            DetectedText.write(
-                f"<h2 style='text-align: center; color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
+            FCText.write(
+                f"<h2 style='text-align:center;color: #8B3DFF;'>Sorry! The model is unable to detect faces. Please try using another image.</h2>", unsafe_allow_html=True)
         else:
-            DetectedText.write(
-                f"<h1 style='text-align: center; color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
+            FCText.write(
+                f"<h1 style='text-align:center;color: #8B3DFF;'>{FaceCount}</h1>", unsafe_allow_html=True)
 
 
 if SelectAppMode == 'Video Mode':
