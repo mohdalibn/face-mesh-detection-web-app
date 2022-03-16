@@ -22,6 +22,8 @@ https://share.streamlit.io/mohdalibn/face-mesh-detection-web-app/main/FaceMeshWe
 
 ```
 
+<a href="https://share.streamlit.io/mohdalibn/face-mesh-detection-web-app/main/FaceMeshWebApp.py" target="_blank"> **CLICK HERE TO OPEN A LIVE DEMO OF THE APP ON YOUR BROWSER** </a>
+
 <!-- Project Tech Stack -->
 # ![technologies-used (8)](https://user-images.githubusercontent.com/95453430/158625632-5dd17f18-4870-4da3-953d-370961aee487.svg)
 
