@@ -13,6 +13,7 @@
 <!-- Project Description -->
 # ![project-description (8)](https://user-images.githubusercontent.com/95453430/158625616-34ef2ded-cb7b-41de-9527-13d83bfc2d42.svg)
 
+This is a **Face Mesh Detection Web App** made using a **Python library** called **Streamlit** used to make **Custom Data Science & Machine Learning Web Apps**. The **Face Mesh** is achieved through the **Cross-Platform Machine Learning Solutions Library called Mediapipe** loaded using **OpenCV Python**. The User can choose between two **App Modes**: **Image Mode** & **Video Mode**. Depending on the mode selected, the User can either upload an **Image File** or a **Video File**, apply the **Face Detection Mesh**, and view the resulting output on the **Main Page**. Additionally, the User has the option to enter the **Number of faces they would like to detect on an Image or Video** and control the **Detection Confidence**, the **Tracking Confidence**, the **Mesh Drawing Thickness**, and the **Mesh Circle Radius**.
 
 <!-- Project Live Demo -->
 # ![project-live-demo](https://user-images.githubusercontent.com/95453430/158626432-a6f3787d-f160-4ebd-aa1b-2526820dd408.svg)
