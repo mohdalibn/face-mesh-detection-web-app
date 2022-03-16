@@ -76,7 +76,7 @@ Download a copy of this repository onto your local machine and extract it into a
 - Install all the required Python libraries mentioned above.
 
 - Open a Command Prompt/Terminal in the **Root Directory** of the Project.
-- Type the following command in the terminal to start an instanct of the Streamlit App.
+- Type the following command in the terminal to start an instance of the Streamlit App.
 ```Python
 streamlit run FaceMeshWebApp.py
 ```
