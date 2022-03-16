@@ -32,6 +32,7 @@ st.markdown(
         # font-family: 'Poppins', san-serif;
         # font-style: normal;
         # font-weight: 400;
+        
         # }
 
         html, body, [class*="css"]  {
@@ -413,7 +414,7 @@ if SelectAppMode == 'Video Mode':
     VideoFPS = int(CapVideo.get(cv2.CAP_PROP_FPS))
 
     # If the Video Recording Option is selected by the User
-    RecordingCodec = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+    RecordingCodec = cv2.VideoWriter_fourcc('M', 'P', '4', 'V')
 
     # Outputing the Recorded Video into a file
     OutputVideo = cv2.VideoWriter('recording1.mp4',
