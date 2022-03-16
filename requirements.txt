@@ -3,3 +3,4 @@ mediapipe==0.8.9.1
 Pillow==8.2.0
 numpy==1.19.5
 opencv-python==4.5.2.52
+opencv-contrib-python==4.5.2.52
