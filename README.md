@@ -37,3 +37,48 @@ https://share.streamlit.io/mohdalibn/face-mesh-detection-web-app/main/FaceMeshWe
 <!-- How To Use Project -->
 # ![how-to-use-project (3)](https://user-images.githubusercontent.com/95453430/158625638-9061d2df-34f4-48e3-8f70-0ce7f44d25b0.svg)
 
+
+**Install the following Python libraries in your Virtual Environment using PIP**.
+
+*Note: The library names are **CASE-SENSITIVE** for PIP installations below. Make sure your type them correctly.*
+
+*Install Streamlit for Python*
+```Python
+pip install streamlit
+```
+
+*Install Mediapipe for Python*
+```Python
+pip install mediapipe
+```
+
+*Install OpenCV for Python*
+```Python
+pip install opencv-python
+```
+
+*Install OpenCV Contrib for Python*
+```Python
+pip install opencv-contrib-python
+```
+
+*Install Numpy for Python*
+```Python
+pip install numpy
+```
+
+*Install Pillow for Image Processing in Python*
+```Python
+pip install Pillow
+```
+
+Download a copy of this repository onto your local machine and extract it into a suitable folder.
+- Install all the required Python libraries mentioned above.
+
+- Open a Command Prompt/Terminal in the **Root Directory** of the Project.
+- Type the following command in the terminal to start an instanct of the Streamlit App.
+```Python
+streamlit run FaceMeshWebApp.py
+```
+
+- Enjoying using the App!
